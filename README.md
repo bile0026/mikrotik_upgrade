@@ -18,8 +18,9 @@ This role handles RouterOS Versions and firmware, both upgrade and downgrade. Up
 
 1. Set the `install_method` variable to `download`
 2. Set the `routeros_version` variable to the latest version
-3. (optional) place the .npk files into the `packages/` directory. (Otherwise Ansible will use your hosts internet connection to download them.)
-4. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
+3. Set the `update_channel` variable to the desired channel (not actually used but should be set for consistency)
+4. (optional) place the .npk files into the `packages/` directory. (Otherwise Ansible will use your hosts internet connection to download them.)
+5. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
 
 
 * Disclaimer: please do your own testing with this. I have tested with most of the 6.48 (stable), and 6.47 (LTS) trains, but there are no guarantees. Please understand what this job is doing and what impacts it might have on your environment.
