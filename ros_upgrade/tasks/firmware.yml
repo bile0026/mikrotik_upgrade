@@ -11,12 +11,14 @@
     upgrade: "{{ item | replace('upgrade-firmware: ', '') | trim }}"
   when: "'upgrade-firmware:' in item"
   loop: "{{ output.stdout_lines[0] }}"
+  no_log: true
 
 - name: Get Current Firmware Line
   set_fact:
     current: "{{ item | replace('current-firmware: ', '') | trim }}"
   when: "'current-firmware:' in item"
   loop: "{{ output.stdout_lines[0] }}"
+  no_log: true
 
 - name: Upgrade RouterOS firmware if needed
   community.routeros.command:
