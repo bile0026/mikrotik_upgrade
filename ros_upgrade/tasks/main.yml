@@ -9,9 +9,17 @@
   debug:
     msg: "{{ ansible_net_version.split(' ')[0] }}"
 
-- name: Install RouterOS
-  include_tasks: ./upgrade.yml
-  when: ansible_net_version.split(' ')[0] is version(routeros_version, '!=')
+- name: Install RouterOS - Push
+  include_tasks: ./push.yml
+  when:
+    - install_method == "push"
+    - routeros_version is defined
+    - ansible_net_version.split(' ')[0] is version(routeros_version, '!=')
+
+- name: Install RouterOS - Download
+  include_tasks: ./download.yml
+  when:
+    - install_method == "download"
 
 - name: Check and Update Firmware
   include_tasks: ./firmware.yml

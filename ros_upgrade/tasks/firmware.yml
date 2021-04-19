@@ -32,6 +32,6 @@
 - name: Wait for reboot
   wait_for:
     port: "{{ ssh_port }}"
-    delay: 120
+    delay: "{{ reboot_timeout }}"
   register: reboot_result
   when: not firmware_upgrade is skipped

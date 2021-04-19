@@ -41,5 +41,5 @@
 - name: Wait for reboot
   wait_for:
     port: "{{ ssh_port }}"
-    delay: 120
+    delay: "{{ reboot_timeout }}"
   when: reboot_result or downgrade_result

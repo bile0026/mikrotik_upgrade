@@ -1,10 +1,15 @@
 ---
 # tasks for download upgrade job
 
+- name: Set Update Channel
+  community.routeros.command:
+    commands:
+      - /system package update set channel={{ update_channel }}
+
 - name: Check version
-      community.routeros.command:
-        commands:
-          - /system package update check-for-updates
+  community.routeros.command:
+    commands:
+      - /system package update check-for-updates
 
 - name: Check if an update is needed
   community.routeros.command:
@@ -16,4 +21,11 @@
   community.routeros.command:
     commands:
       - /system package update install
+  register: upgrade_status
   when: output.stdout is search('available')
+
+- name: Wait for reboot
+  wait_for:
+    port: "{{ ssh_port }}"
+    delay: "{{ reboot_timeout }}"
+  when: not upgrade_status is skipped
