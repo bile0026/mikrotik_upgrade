@@ -23,3 +23,7 @@
 
 - name: Check and Update Firmware
   include_tasks: ./firmware.yml
+
+- name: Validate updates and results
+  include_tasks: ./validate.yml
+  when: validatation
