@@ -1,2 +1,3 @@
-# Ansible_Role_Default
-default structure for ansible
+# ros_upgrade
+
+Upgrade RouterOS packages and firmware

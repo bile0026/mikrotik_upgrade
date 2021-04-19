@@ -1,0 +1,11 @@
+---
+- name: Upgrade RouterOS packages and firmware
+  hosts: all
+  gather_facts: false
+  vars:
+    deprecation_warnings: false
+
+  tasks:
+    - name: Import ros_upgrade role
+      import_role:
+        name: ros_upgrade
