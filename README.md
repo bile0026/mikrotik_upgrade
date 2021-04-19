@@ -22,4 +22,4 @@ This role handles RouterOS Versions and firmware, both upgrade and downgrade. Up
 4. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
 
 
-* Disclaimer: please do your own testing with this. I have tested with most of the 6.48 (stable), and 6.47 (LTS) trains. Please understand what this job is doing and what impacts it might have on your environment.
+* Disclaimer: please do your own testing with this. I have tested with most of the 6.48 (stable), and 6.47 (LTS) trains, but there are no guarantees. Please understand what this job is doing and what impacts it might have on your environment.
