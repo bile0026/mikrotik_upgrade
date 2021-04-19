@@ -15,17 +15,18 @@
     current: "{{ item | replace('current-firmware: ', '') | trim }}"
   when: "'current-firmware:' in item"
   loop: "{{ output.stdout_lines[0] }}"
+  no_log: true
 
 - name: Verify RouterOS and Firmware Versions Match
   ansible.builtin.assert:
     that:
-      - ansible_net_version == current
-    fail_msg: "RouterOS version {{ ansible_net_version }} does not match firmware version {{ current }}!"
-    success_msg: "RouterOS version {{ ansible_net_version }} matches firmware!"
+      - ansible_net_version.split(' ')[0] is version(current, 'eq')
+    fail_msg: "RouterOS version {{ ansible_net_version.split(' ')[0] }} does not match firmware version {{ current }}!"
+    success_msg: "RouterOS version {{ ansible_net_version.split(' ')[0] }} matches firmware!"
 
 - name: Validate RouterOS version matches {{ routeros_version }}
   ansible.builtin.assert:
     that:
-      - ansible_net_version == routeros_version
-    fail_msg: "RouterOS version {{ ansible_net_version }} does not match specified version {{ routeros_version }}"
-    success_msg: "RouterOS version {{ ansible_net_version }} matches specified version!"
+      - ansible_net_version.split(' ')[0] is version(routeros_version, 'eq')
+    fail_msg: "RouterOS version {{ ansible_net_version.split(' ')[0] }} does not match specified version {{ routeros_version }}"
+    success_msg: "RouterOS version {{ ansible_net_version.split(' ')[0] }} matches specified version!"
