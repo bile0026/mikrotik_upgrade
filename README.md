@@ -2,7 +2,7 @@
 
 Upgrade RouterOS packages and firmware
 
-This role handles RouterOS Versions and firmware, both upgrade and downgrade. Upgrades can be done via SFTP push, or via the built-in package update on the MikroTik. Firmware will always be set to match the RouterOS version, as per MikroTik reccomended best practices.
+This role handles RouterOS Versions and firmware, both upgrade and downgrade. Upgrades can be done via SFTP push, or via the built-in package update on the MikroTik. Firmware will always be set to match the RouterOS version, as per MikroTik reccomended best practices. Please deploy from tags, not the master branch. Master branch should be considered experimental.
 
 # Download Method
 * Note, this method will not handle downgrades, just upgrades to the latest release in the `update_channel` set by this job. (stable, LTS, beta, testing)
