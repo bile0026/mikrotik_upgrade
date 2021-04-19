@@ -1,6 +1,11 @@
 ---
 # tasks for push install routeros
 
+- name: Set Update Channel
+  community.routeros.command:
+    commands:
+      - /system package update set channel={{ update_channel }}
+
 - name: Check for packages existing
   ansible.builtin.stat:
     path: packages/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
