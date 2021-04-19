@@ -6,6 +6,8 @@ This role handles RouterOS Versions and firmware, both upgrade and downgrade. Up
 
 Note - Requires the community.routeros collection. Install via `ansible-galaxy collection install -r collections/requirements.yml`
 
+* Not suggested for use to switch to testing channel as there could be breaking changes in v7.
+
 # Download Method
 * Note, this method will not handle downgrades, just upgrades to the latest release in the `update_channel` set by this job. (stable, LTS, beta, testing)
 
