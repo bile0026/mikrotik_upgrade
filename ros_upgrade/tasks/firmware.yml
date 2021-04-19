@@ -1,0 +1,37 @@
+---
+# tasks for firmware checks
+
+- name: Get Firmware
+  community.routeros.command:
+    commands: /system routerboard print
+  register: output
+
+- name: Get Upgrade Firmware Line
+  set_fact:
+    upgrade: "{{ item | replace('upgrade-firmware: ', '') | trim }}"
+  when: "'upgrade-firmware:' in item"
+  loop: "{{ output.stdout_lines[0] }}"
+
+- name: Get Current Firmware Line
+  set_fact:
+    current: "{{ item | replace('current-firmware: ', '') | trim }}"
+  when: "'current-firmware:' in item"
+  loop: "{{ output.stdout_lines[0] }}"
+
+- name: Upgrade RouterOS firmware if needed
+  community.routeros.command:
+    commands: ":execute {/system rou up;delay 1;quit}"
+  when: current is version(upgrade, '!=')
+  register: firmware_upgrade
+
+- name: Reboot the router
+  community.routeros.command:
+    commands: ":execute {/system reboot;delay 1;quit}"
+  when: current is version(upgrade, '!=')
+
+- name: Wait for reboot
+  wait_for:
+    port: "{{ ssh_port }}"
+    delay: 120
+  register: reboot_result
+  when: not firmware_upgrade is skipped

@@ -1,0 +1,10 @@
+---
+# tasks to upgrade routeros
+
+- name: Push install RouterOS
+  include_tasks: ./push.yml
+  when: install_method == "push"
+
+- name: Download install RouterOS
+  include_tasks: ./download.yml
+  when: install_method == "download"

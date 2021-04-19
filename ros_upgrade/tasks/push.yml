@@ -1,0 +1,45 @@
+---
+# tasks for push install routeros
+
+- name: Check for packages existing
+  ansible.builtin.stat:
+    path: packages/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
+  register: packages
+  delegate_to: localhost
+
+- name: Download npk(s)
+  ansible.builtin.get_url:
+    url: https://download.mikrotik.com/routeros/{{ routeros_version }}/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
+    dest: packages/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
+  when: not packages.stat.exists
+  delegate_to: localhost
+
+- name: Push npk to router
+  ansible.netcommon.net_put:
+    src: packages/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
+    protocol: sftp
+    dest: /routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
+  register: push_result
+
+- name: Downgrade RouterOS
+  community.routeros.command:
+    commands:
+      - ": execute {/system package downgrade; delay 1; y; quit}"
+  register: downgrade_result
+  when: ansible_net_version.split(' ')[0] is version(routeros_version, '>')
+
+- name: Reboot Router
+  community.routeros.command:
+    commands:
+      - ":execute {/system reboot;delay 1;quit}"
+  register: reboot_result
+  when:
+    - push_result is changed
+    - ansible_net_version.split(' ')[0] is version(routeros_version, '<')
+    - not downgrade_result is changed
+
+- name: Wait for reboot
+  wait_for:
+    port: "{{ ssh_port }}"
+    delay: 120
+  when: reboot_result or downgrade_result

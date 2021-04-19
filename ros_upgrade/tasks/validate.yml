@@ -1,0 +1,17 @@
+---
+# tasks for routeros updates validation
+
+- name: Get routeros facts
+  community.routeros.facts:
+    gather_subset: all
+
+- name: Get Firmware
+  community.routeros.command:
+    commands: /system routerboard print
+  register: output
+
+- name: Get Current Firmware Line
+  set_fact:
+    current: "{{ item | replace('current-firmware: ', '') | trim }}"
+  when: "'current-firmware:' in item"
+  loop: "{{ output.stdout_lines[0] }}"

@@ -1,0 +1,7 @@
+---
+# collections for rot_upgrade role
+
+collections:
+  - name: community.routeros
+    source: https://galaxy.ansible.com
+    version: 1.1.0

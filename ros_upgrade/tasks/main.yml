@@ -1,2 +1,17 @@
 ---
 # tasks file for ros_upgrade
+
+- name: Get routeros facts
+  community.routeros.facts:
+    gather_subset: all
+
+- name: print variable
+  debug:
+    msg: "{{ ansible_net_version.split(' ')[0] }}"
+
+- name: Install RouterOS
+  include_tasks: ./upgrade.yml
+  when: ansible_net_version.split(' ')[0] is version(routeros_version, '!=')
+
+- name: Check and Update Firmware
+  include_tasks: ./firmware.yml
