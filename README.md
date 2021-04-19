@@ -9,9 +9,10 @@ This role handles RouterOS Versions and firmware, both upgrade and downgrade. Up
 
 1. Set the `install_method` variable to `download`
 2. Set the `update_channel` variable to your desired channel (stable, long-term, development, testing)
-3. `routeros_version` is not evaluated using Download Method
+3. `routeros_version` is not evaluated using Download Method, but will affect validation checks if you want this.
 4. (optional) Adjust the `reboot_timeout` variable if you have slower connections or waiting for reboots is timing out
-5. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
+5. (optional) set `validation` variable to true to verify all upgrades after processing. (needs to have routeros_version set also)
+6. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
 
 # Push Method
 * Note, this method can be used to set a specific version of RouterOS. (will handle upgrade or downgrade to achieve desired version)
@@ -20,7 +21,8 @@ This role handles RouterOS Versions and firmware, both upgrade and downgrade. Up
 2. Set the `routeros_version` variable to the latest version
 3. Set the `update_channel` variable to the desired channel (not actually used but should be set for consistency)
 4. (optional) place the .npk files into the `packages/` directory. (Otherwise Ansible will use your hosts internet connection to download them.)
-5. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
+5. (optional) set `validation` variable to true to verify all upgrades after processing.
+6. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
 
 
 * Disclaimer: please do your own testing with this. I have tested with most of the 6.48 (stable), and 6.47 (LTS) trains, but there are no guarantees. Please understand what this job is doing and what impacts it might have on your environment.
