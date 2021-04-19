@@ -8,7 +8,7 @@ ansible_network_os: community.routeros.routeros
 ssh_port: 22
 
 # routeros version to install
-routeros_version: 6.48.2
+routeros_version: 6.46
 
 # install method (push or download) Remember, download will just update to the latest version of whichever chain the router is currently on (stable, beta, LTS)
 install_method: push
