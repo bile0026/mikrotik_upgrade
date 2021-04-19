@@ -26,4 +26,4 @@
 
 - name: Validate updates and results
   include_tasks: ./validate.yml
-  when: validatation
+  when: validation
