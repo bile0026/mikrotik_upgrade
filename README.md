@@ -21,7 +21,7 @@ Note - Requires the community.routeros collection. Install via `ansible-galaxy c
 # Push Method
 * Note, this method can be used to set a specific version of RouterOS. (will handle upgrade or downgrade to achieve desired version)
 
-1. Set the `install_method` variable to `download`
+1. Set the `install_method` variable to `push`
 2. Set the `routeros_version` variable to the latest version
 3. Set the `update_channel` variable to the desired channel (not actually used but should be set for consistency)
 4. (optional) place the .npk files into the `packages/` directory. (Otherwise Ansible will use your hosts internet connection to download them.)
