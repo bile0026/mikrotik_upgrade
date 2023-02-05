@@ -1,1 +1,10 @@
 packages/*
+
+# local host files
+hosts
+
+# local ansible.cfg
+ansible.cfg
+
+# snyk
+.dccache
