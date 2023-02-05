@@ -19,5 +19,9 @@ update_channel: testing
 # how long to wait for reboots before trying to continue
 reboot_timeout: 120
 
+# how long to allow the .npk transfer to take to the router
+transfer_timeout: 120
+poll_interval: 30
+
 # run validation?
 validation: true
