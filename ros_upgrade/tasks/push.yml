@@ -12,6 +12,12 @@
   register: packages
   delegate_to: localhost
 
+- name: Ensure packages directory exists
+  ansible.builtin.file:
+    path: ./packages
+    state: directory
+  delegate_to: localhost
+
 - name: Download npk(s)
   ansible.builtin.get_url:
     url: https://download.mikrotik.com/routeros/{{ routeros_version }}/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
