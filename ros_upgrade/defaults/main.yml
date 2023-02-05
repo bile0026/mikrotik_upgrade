@@ -17,7 +17,7 @@ install_method: download
 update_channel: testing
 
 # how long to wait for reboots before trying to continue
-reboot_timeout: 120
+reboot_timeout: 240
 
 # how long to allow the .npk transfer to take to the router
 transfer_timeout: 120

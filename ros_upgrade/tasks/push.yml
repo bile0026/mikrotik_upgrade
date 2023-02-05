@@ -31,8 +31,8 @@
     protocol: sftp
     dest: /routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
   register: push_result
-  async: "{{ transfer_timeout }}"
-  poll: "{{ poll_interval }}"
+  vars:
+    ansible_command_timeout: "{{ transfer_timeout }}"
 
 - name: Downgrade RouterOS
   community.routeros.command:
