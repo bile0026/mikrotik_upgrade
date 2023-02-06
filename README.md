@@ -8,18 +8,37 @@ Note - Requires the community.routeros collection. Install via `ansible-galaxy c
 
 * Not suggested for use to switch to testing channel as there could be breaking changes in v7.
 
-# Download Method
+## Normal Method
+
 * Note, this method will not handle downgrades, just upgrades to the latest release in the `update_channel` set by this job. (stable, LTS, beta, testing)
 
-1. Set the `install_method` variable to `download`
+This method is the same as going into winbox and clicking `System>Packages>Check for Updates>Download`.
+
+1. Set the `install_method` variable to `normal`
 2. Set the `update_channel` variable to your desired channel (stable, long-term, development, testing)
 3. `routeros_version` is not evaluated using Download Method, but will affect validation checks if you want this.
 4. (optional) Adjust the `reboot_timeout` variable if you have slower connections or waiting for reboots is timing out
 5. (optional) set `validation` variable to true to verify all upgrades after processing. (needs to have routeros_version set also)
 6. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
 
-# Push Method
+## Download Method
+
+* Note, this method can be used to set a specific version of RouterOS. (will handle upgrade or downgrade to achive desired version)
+
+This method will use the router's internet connection to download the specified version .npk file and reboot to install.
+
+1. Set the `install_method` variable to `download`
+2. Set the `routeros_version` variable to the latest version
+3. Set the `update_channel` variable to the desired channel (not actually used but should be set for consistency)
+4. (optional) place the .npk files into the `packages/` directory. (Otherwise Ansible will use your hosts internet connection to download them.)
+5. (optional) set `validation` variable to true to verify all upgrades after processing.
+6. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
+
+## Push Method
+
 * Note, this method can be used to set a specific version of RouterOS. (will handle upgrade or downgrade to achieve desired version)
+
+This method will use the ansible server's internet connection to download the specified version .npk file, transfer the .npk to the router via SFTP, and reboot to install.
 
 1. Set the `install_method` variable to `push`
 2. Set the `routeros_version` variable to the latest version
@@ -28,7 +47,10 @@ Note - Requires the community.routeros collection. Install via `ansible-galaxy c
 5. (optional) set `validation` variable to true to verify all upgrades after processing.
 6. Run the job. (Devices will be upgraded, rebooted, firmware upgraded, and rebooted once more.)
 
-
-# Disclaimer
+## Disclaimer
 
 Please do your own testing with this. I have tested with most of the 6.48 (stable), and 6.47 (LTS) trains, but there are no guarantees. Please understand what this job is doing and what impacts it might have on your environment.
+
+## Contributions
+
+Contributions welcome, just open an issue or pull request.
