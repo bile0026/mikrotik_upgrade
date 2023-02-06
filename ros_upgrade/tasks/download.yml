@@ -27,7 +27,8 @@
     - not downgrade_result is changed
 
 - name: Wait for reboot
-  wait_for:
+  ansible.builtin.wait_for:
+    #host: "{{ ansible_ssh_host }}"
     port: "{{ ssh_port }}"
     delay: "{{ reboot_timeout }}"
   when: reboot_result or downgrade_result
