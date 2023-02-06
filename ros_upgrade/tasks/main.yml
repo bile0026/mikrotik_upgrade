@@ -29,4 +29,6 @@
 
 - name: Validate updates and results
   include_tasks: ./validate.yml
-  when: validation
+  when:
+    - validation
+    - intsall_method != 'normal'
