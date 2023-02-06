@@ -31,4 +31,4 @@
   include_tasks: ./validate.yml
   when:
     - validation
-    - intsall_method != 'normal'
+    - install_method != 'normal'

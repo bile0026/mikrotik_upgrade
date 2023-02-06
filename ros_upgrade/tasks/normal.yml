@@ -25,7 +25,8 @@
   when: output.stdout is search('available')
 
 - name: Wait for reboot
-  wait_for:
+  ansible.builtin.wait_for:
+    #host: "{{ ansible_ssh_host }}"
     port: "{{ ssh_port }}"
     delay: "{{ reboot_timeout }}"
   when: not upgrade_status is skipped
