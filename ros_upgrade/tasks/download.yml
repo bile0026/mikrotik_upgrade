@@ -28,7 +28,9 @@
 
 - name: Wait for reboot
   ansible.builtin.wait_for:
-    #host: "{{ ansible_ssh_host }}"
+    host: '{{ (ansible_ssh_host|default(ansible_host))|default(inventory_hostname) }}'
     port: "{{ ssh_port }}"
     delay: "{{ reboot_timeout }}"
   when: reboot_result or downgrade_result
+  vars:
+    ansible_connection: local
