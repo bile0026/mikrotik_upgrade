@@ -16,6 +16,13 @@
   include_tasks: ./download.yml
   when:
     - install_method == "download"
+    - routeros_version is defined
+    - ansible_net_version.split(' ')[0] is version(routeros_version, '!=')
+
+- name: Install RouterOS - Normal
+  include_tasks: ./normal.yml
+  when:
+    - install_method == "normal"
 
 - name: Check and Update Firmware
   include_tasks: ./firmware.yml
