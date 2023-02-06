@@ -1,31 +1,33 @@
 ---
-# tasks for download upgrade job
+# tasks for push install routeros
 
 - name: Set Update Channel
   community.routeros.command:
     commands:
       - /system package update set channel={{ update_channel }}
 
-- name: Check version
+- name: Download npk(s)
   community.routeros.command:
-    commands:
-      - /system package update check-for-updates
+    commands: /tool fetch dst-path=/ url=https://download.mikrotik.com/routeros/{{ routeros_version }}/routeros-{{ ansible_net_arch }}-{{ routeros_version }}.npk
 
-- name: Check if an update is needed
+- name: Downgrade RouterOS
   community.routeros.command:
     commands:
-      - "[:put ([/system package update check-for-updates])]"
-  register: output
+      - ": execute {/system package downgrade; delay 1; y; quit}"
+  register: downgrade_result
+  when: ansible_net_version.split(' ')[0] is version(routeros_version, '>')
 
-- name: Run upgrade if new version is available
+- name: Reboot Router
   community.routeros.command:
     commands:
-      - /system package update install
-  register: upgrade_status
-  when: output.stdout is search('available')
+      - ":execute {/system reboot;delay 1;quit}"
+  register: reboot_result
+  when:
+    - ansible_net_version.split(' ')[0] is version(routeros_version, '<')
+    - not downgrade_result is changed
 
 - name: Wait for reboot
   wait_for:
     port: "{{ ssh_port }}"
     delay: "{{ reboot_timeout }}"
-  when: not upgrade_status is skipped
+  when: reboot_result or downgrade_result
